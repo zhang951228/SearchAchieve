@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdzdf.serach.repository.KmcjbService">
+
+    <select id="queryKmcjb" parameterType="com.sdzdf.serach.bean.KmcjbBean" resultType="com.sdzdf.serach.bean.KmcjbBean">
+        SELECT ksid,ksh,xm,bmh,zzdm,kc,zh,bj,pm,xxpm,bjpm,kmcj,kgtcj,zgtcj FROM DB_${slid}.T_${ksdm}_${kmdm}_KMCJB WHERE ksid = #{ksid}
+    </select>
+
+</mapper>

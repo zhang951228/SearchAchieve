@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdzdf.serach.repository.KscjbService">
+<!--
+    <select id="queryKscjb" parameterType="java.util.HashMap" resultMap="KmcjbBean">
+        SELECT KSID,KSH, XM,BMH, ZZDM, KC, ZH, BJ, PM,  XXPM, BJPM, KMCJ,  KGTCJ,  ZGTCJ
+        FROM DB_${SLID}.T_${KSDM}_${KMDM}_KMCJB WHERE KSID = #{KSID}
+    </select>-->
+    <select id="queryKscjb" parameterType="com.sdzdf.serach.bean.KmcjbBean" resultMap="com.sdzdf.serach.bean.KmcjbBean">
+        SELECT KSID,KSH, XM,BMH, ZZDM, KC, ZH, BJ, PM,  XXPM, BJPM, KMCJ,ZGTCJ,KGTCJ FROM DB_${SLID}.T_${KSDM}_${KMDM}_KMCJB WHERE KSID = #{KSID}
+    </select>
+    <select id="queryKscjbb" parameterType="java.util.HashMap" resultMap="java.util.HashMap">
+        SELECT KSID,KSH, XM,BMH, ZZDM, KC, ZH, BJ, PM,  XXPM, BJPM, KMCJ,ZGTCJ,KGTCJ FROM DB_${SLID}.T_${KSDM}_${KMDM}_KMCJB WHERE KSID = #{KSID}
+    </select>
+
+</mapper>
