@@ -1,19 +1,24 @@
 package com.sdzdf.serach.bean;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+
 /**
  * @Auther: z151
  * @Date: 2019/12/25 13:13
  */
-public class Student {
+@Slf4j
+@Repository
+public class StudentBean {
     private String slid;
     private String ksid;
     private String password;
     private String name;
 
-    public Student() {
+    public StudentBean() {
     }
 
-    public Student(String slid) {
+    public StudentBean(String slid) {
         this.slid = slid;
     }
 

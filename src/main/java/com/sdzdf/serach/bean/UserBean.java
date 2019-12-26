@@ -1,8 +1,11 @@
 package com.sdzdf.serach.bean;
 
+import org.springframework.stereotype.Repository;
+
 import java.io.Serializable;
 
-public class User implements Serializable {
+@Repository
+public class UserBean implements Serializable {
 
     private static final long serialVersionUID = -7797183521247423117L;
 

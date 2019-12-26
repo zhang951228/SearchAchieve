@@ -9,6 +9,7 @@ import java.util.Map;
  * @Auther: z151
  * @Date: 2019/12/25 16:27
  */
+
 @Mapper
 public interface KscjbMapper {
     KscjbBean queryKscjb(Map<String, String> map);

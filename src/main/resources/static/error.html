@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>这里是index.html</h1>
+<h1>这里是error.html</h1>
 <div id="mydiv"></div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="/js/axios.min.js"></script>
@@ -92,7 +92,7 @@
         },
         methods: {
             reverseMessage: function () {
-                post("/login.html",{userName: "admin", password: "123456", remember: false});
+                post("/login",{userName: "admin", password: "123456", remember: false});
             }
         }
     })
