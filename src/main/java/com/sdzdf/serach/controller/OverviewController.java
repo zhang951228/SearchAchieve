@@ -3,28 +3,15 @@ package com.sdzdf.serach.controller;
 import com.sdzdf.serach.base.RestResponse;
 import com.sdzdf.serach.base.SystemCode;
 import com.sdzdf.serach.bean.KmcjbBean;
-import com.sdzdf.serach.bean.KscjbBean;
-import com.sdzdf.serach.repository.KmcjbService;
-import com.sdzdf.serach.repository.KscjbService;
+import com.sdzdf.serach.dao.KmcjbMapper;
 import lombok.AllArgsConstructor;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Auther: z151
@@ -33,12 +20,12 @@ import java.util.Map;
 @Controller
 @AllArgsConstructor
 public class OverviewController {
-    private final KmcjbService kmcjbService;
+    private final KmcjbMapper kmcjbMapper;
 
     @ResponseBody
     @RequestMapping(value ="/overview/stu",method = RequestMethod.POST)
     public RestResponse studentCheckOverview(HttpServletRequest request, HttpServletResponse response){
-        KmcjbBean KmcjbBean2 = kmcjbService.queryKmcjb(new KmcjbBean("9004","39","C6","201330093"));
+        KmcjbBean KmcjbBean2 = kmcjbMapper.queryKmcjb(new KmcjbBean("9004","39","C6","201330093"));
         System.out.println(KmcjbBean2);
         SystemCode systemCode = SystemCode.OK;
         RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
