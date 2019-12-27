@@ -5,6 +5,9 @@ package com.sdzdf.serach.config;
  * @Date: 2019/12/26 17:19
  */
 
+
+
+
 import com.sdzdf.serach.support.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +18,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -26,20 +40,70 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @Override
+/*    @Override
     protected void configure(HttpSecurity http) throws Exception {
         //  允许所有用户访问"/"和"/index.html"
         http.authorizeRequests()
-                .antMatchers("/", "/index.html").permitAll()
+                .antMatchers("/", "/index.html","/js/**", "/css/**", "/web/**").permitAll()
                 .anyRequest().authenticated()   // 其他地址的访问均需验证权限
                 .and()
                 .formLogin()
                 .loginPage("/login.html")   //  登录页
                 .failureUrl("/login-error.html").permitAll()
+                .loginProcessingUrl("/login")
+                .usernameParameter("username").passwordParameter("password").permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/index.html");
+                .logoutSuccessUrl("/index.html")
+        ;
+    }*/
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/", "/index.html").permitAll()
+                .antMatchers("/admin/category/all").authenticated()
+                .antMatchers("/admin/**","/reg").hasRole("超级管理员")///admin/**的URL都需要有超级管理员角色，如果使用.hasAuthority()方法来配置，需要在参数中加上ROLE_,如下.hasAuthority("ROLE_超级管理员")
+                .anyRequest().authenticated()//其他的路径都是登录后即可访问
+                .and().formLogin().loginPage("/login.html").successHandler(new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+                httpServletResponse.setContentType("application/json;charset=utf-8");
+                PrintWriter out = httpServletResponse.getWriter();
+                out.write("{\"status\":\"success\",\"msg\":\"登录成功\"}");
+                out.flush();
+                out.close();
+            }
+        })
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+                        httpServletResponse.setContentType("application/json;charset=utf-8");
+                        PrintWriter out = httpServletResponse.getWriter();
+                        out.write("{\"status\":\"error\",\"msg\":\"登录失败\"}");
+                        out.flush();
+                        out.close();
+                    }
+                }).loginProcessingUrl("/login.html")
+                .usernameParameter("username").passwordParameter("password").permitAll()
+                .and().logout().permitAll().and().csrf().disable().exceptionHandling().accessDeniedHandler(getAccessDeniedHandler());
     }
+
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/js/**", "/css/**", "/web/**").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
+//                .anyRequest().authenticated()
+//                .and()
+//                // ...
+//                .formLogin();
+//    }
+@Bean
+AccessDeniedHandler getAccessDeniedHandler() {
+    return new AuthenticationAccessDeniedHandler();
+}
 
 
     @Override

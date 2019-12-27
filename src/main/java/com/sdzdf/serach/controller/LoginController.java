@@ -33,13 +33,11 @@ public class LoginController {
        return objectRestResponse;
    }
 
-/*
     // Login form
-    @RequestMapping("/login.html")
+    @RequestMapping("/login.htm")
     public String login() {
         return "login.html";
     }
-*/
 
     // Login form with error
     @RequestMapping("/login-error.html")
