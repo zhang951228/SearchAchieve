@@ -9,9 +9,24 @@
 </h1>
 <h1>这里是index.html</h1>
 <div id="mydiv"></div>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="/static/js/axios.min.js"></script>
+<script src="webjars/axios/0.19.0/dist/axios.js"></script>
+<script src="webjars/vue/2.6.11/dist/vue.js"></script>
 <div id="app"  @click="reverseMessage">  {{ message }} </div>
+<br>
+<hr>C:\Users\z151\.m2\repository\org\webjars\npm\axios\0.19.0\axios-0.19.0.jar!\META-INF\resources\webjars\axios\0.19.0\lib\axios.js
+<br>
+<hr>
+<a href="login.html">点击此处跳转到登录页面</a></h4>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<br>
+<br>
+<h3 style="color: red">此页面中,因为在spring security 中没有配置axios 进行放行,导致vue 无法进行ajax,自己懒得弄了,反正是打算放弃vue 使用thymelea 了</h3>
+
+<h3>不是有意想配置axios的,只是想配置一下 webjar的使用, 认真//</h3>
 <br>
 <br>
 <br>
@@ -55,7 +70,6 @@
                 if (loadtip) {
                     loading.close()
                 }
-                vue.prototype.$message.error(e.message)
                 return Promise.reject(e.message)
             })
     }
@@ -90,11 +104,11 @@
     var app2 = new Vue({
         el: '#app2',
         data: {
-            message: '测试提交ajax登录'
+            message: '点击此处,测试提交ajax登录(访问方法也是登录方法)'
         },
         methods: {
             reverseMessage: function () {
-                post("/login.html",{userName: "admin", password: "123456", remember: false});
+                post("/loginajax",{userName: "admin", password: "123456", remember: false});
             }
         }
     })
@@ -102,11 +116,11 @@
     var app3 = new Vue({
         el: '#app3',
         data: {
-            message: '测试获取一次科目成绩'
+            message: '点击此处,测试获取一次科目成绩'
         },
         methods: {
             reverseMessage: function () {
-                post("/overview/stu",{userName: "admin", password: "123456", remember: false});
+                post("/getsubject",{userName: "admin", password: "123456", remember: false});
             }
         }
     })
