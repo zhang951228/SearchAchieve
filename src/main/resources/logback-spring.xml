@@ -38,10 +38,6 @@
         </logger>
     </springProfile>
 
-
-
-
-
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="FILE"/>

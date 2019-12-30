@@ -40,29 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-/*    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        //  允许所有用户访问"/"和"/index.html"
-        http.authorizeRequests()
-                .antMatchers("/", "/index.html","/js/**", "/css/**", "/web/**").permitAll()
-                .anyRequest().authenticated()   // 其他地址的访问均需验证权限
-                .and()
-                .formLogin()
-                .loginPage("/login.html")   //  登录页
-                .failureUrl("/login-error.html").permitAll()
-                .loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password").permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/index.html")
-        ;
-    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/index.html").permitAll()
-                .antMatchers("/admin/category/all").authenticated()
+                .antMatchers("/", "/index.html","/login.html","/logout.html","/login").permitAll()//无条件访问根目录和访问index.html
+                //.antMatchers("/admin/category/all").authenticated()//.authenticated 需要进行用户身份验证
                 .antMatchers("/admin/**","/reg").hasRole("超级管理员")///admin/**的URL都需要有超级管理员角色，如果使用.hasAuthority()方法来配置，需要在参数中加上ROLE_,如下.hasAuthority("ROLE_超级管理员")
                 .anyRequest().authenticated()//其他的路径都是登录后即可访问
                 .and().formLogin().loginPage("/login.html").successHandler(new AuthenticationSuccessHandler() {
@@ -84,9 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         out.flush();
                         out.close();
                     }
-                }).loginProcessingUrl("/login.html")
+                }).loginProcessingUrl("login.html")
                 .usernameParameter("username").passwordParameter("password").permitAll()
-                .and().logout().permitAll().and().csrf().disable().exceptionHandling().accessDeniedHandler(getAccessDeniedHandler());
+                .and().logout().logoutSuccessUrl("/logout.html").permitAll()
+                .and().csrf().disable().exceptionHandling().accessDeniedHandler(getAccessDeniedHandler());
     }
 
 //    protected void configure(HttpSecurity http) throws Exception {

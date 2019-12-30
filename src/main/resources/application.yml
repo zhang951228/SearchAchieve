@@ -53,9 +53,10 @@ spring:
     redis:
       time-to-live: 12h   #12 hour
 
-
-  #spring mvc
+  thymeleaf:
+    cache: false #为了测试方便,关掉thymeleaf缓存.
 
   #runningtime environment
   profiles:
     active:  dev
+

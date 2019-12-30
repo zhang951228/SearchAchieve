@@ -22,14 +22,26 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @ResponseBody
-    @RequestMapping(value ="/login",method = RequestMethod.POST)
+    @RequestMapping(value ="/login",method = {RequestMethod.POST,RequestMethod.GET})
     public RestResponse studentLogin( HttpServletRequest request, HttpServletResponse response){
 
         System.out.println("调用登录方法");
         SystemCode systemCode = SystemCode.OK;
         logger.info("XXXX 用户登录成功.请求狙杀");
        RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
-       objectRestResponse.setMessage("自定义message");
+       objectRestResponse.setMessage("此处可以自定义登录成功message");
+       return objectRestResponse;
+   }
+
+    @ResponseBody
+    @RequestMapping(value ="/loglog",method = {RequestMethod.POST,RequestMethod.GET})
+    public RestResponse studentLogins( HttpServletRequest request, HttpServletResponse response){
+
+        System.out.println("调用登录方sssss法");
+        SystemCode systemCode = SystemCode.OK;
+        logger.info("XXXX 用户登录成功.请求狙杀");
+       RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
+       objectRestResponse.setMessage("此处可以自定义登录成功message");
        return objectRestResponse;
    }
 
