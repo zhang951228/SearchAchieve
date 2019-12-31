@@ -3,11 +3,13 @@ package com.sdzdf.serach.controller;
 import com.sdzdf.serach.base.RestResponse;
 import com.sdzdf.serach.base.SystemCode;
 import com.sun.org.glassfish.gmbal.ParameterNames;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.LoggerFactory;
@@ -21,9 +23,9 @@ import java.util.Map;
  * @Auther: z151
  * @Date: 2019/12/25 13:05
  */
+@Slf4j
 @Controller
 public class LoginController {
-    private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @ResponseBody
     @RequestMapping(value ="/login",method = {RequestMethod.POST,RequestMethod.GET})
@@ -31,9 +33,9 @@ public class LoginController {
     //public RestResponse studentLogin(String usernname,String password){
 
         SystemCode systemCode = SystemCode.OK;
-        logger.info("XXXX 用户使用form表单登录成功.请求狙杀");
-        logger.info("传入username:"+usernname);
-        logger.info("传入username:"+password);
+        log.info("XXXX 用户使用form表单登录成功.请求狙杀");
+        log.info("传入username:"+usernname);
+        log.info("传入username:"+password);
        RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
        objectRestResponse.setMessage("此处可以自定义登录成功message");
        return objectRestResponse;
@@ -43,9 +45,9 @@ public class LoginController {
     @RequestMapping(value ="/loginajax",method = {RequestMethod.POST,RequestMethod.GET})
     public RestResponse studentLoginAjax(@RequestBody Map<String,String> myMap){
 
-        logger.error("myMap"+myMap);
+        log.error("myMap"+myMap);
         SystemCode systemCode = SystemCode.OK;
-        logger.info("用户使用ajax方式登录成功.请求狙杀");
+        log.info("用户使用ajax方式`登录成功.请求狙杀");
         RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
         objectRestResponse.setMessage("此处可以自定义登录成功message");
         return objectRestResponse;
@@ -62,7 +64,7 @@ public class LoginController {
         myModel.put("list",list);
 
         SystemCode systemCode = SystemCode.OK;
-        logger.info("WARN:居然有人调用了获取科目列表的方法.好放肆啊");
+        log.info("WARN:居然有人调用了获取科目列表的方法.好放肆啊");
         RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
         objectRestResponse.setMessage("麻烦不要获取科目信息,谢谢.");
         return objectRestResponse;
