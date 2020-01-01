@@ -11,4 +11,7 @@ public class AchieveApplication {
         System.out.println("(♥◠‿◠)ﾉﾞ  智多分查分程序启动成功   ლ(´ڡ`ლ)  ");
     }
 
+
+
+
 }

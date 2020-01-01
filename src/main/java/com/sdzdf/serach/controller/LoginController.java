@@ -2,20 +2,17 @@ package com.sdzdf.serach.controller;
 
 import com.sdzdf.serach.base.RestResponse;
 import com.sdzdf.serach.base.SystemCode;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -29,21 +26,34 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value ="/login",method = {RequestMethod.POST,RequestMethod.GET})
-    public RestResponse studentLoginForm(@RequestParam("username") String usernname,@RequestParam("password") String password){
+    public RestResponse studentLoginForm(@RequestParam("username") String username,@RequestParam("password") String password){
     //public RestResponse studentLogin(String usernname,String password){
-
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        Subject subject = SecurityUtils.getSubject();
         SystemCode systemCode = SystemCode.OK;
         log.info("XXXX 用户使用form表单登录成功.请求狙杀");
-        log.info("传入username:"+usernname);
+        log.info("传入username:"+username);
         log.info("传入username:"+password);
        RestResponse<Object> objectRestResponse = new RestResponse<>(systemCode.getCode(), systemCode.getMessage());
        objectRestResponse.setMessage("此处可以自定义登录成功message");
+
+        try {
+            subject.login(token);
+        } catch (IncorrectCredentialsException ice) {
+            objectRestResponse.setMessage("password error!");
+        } catch (UnknownAccountException uae) {
+            objectRestResponse.setMessage("username error!");
+        }
+        subject.getSession().setAttribute("user", "zhang88");
+        objectRestResponse.setMessage("SUCCESS");
+
        return objectRestResponse;
    }
 
     @ResponseBody
     @RequestMapping(value ="/loginajax",method = {RequestMethod.POST,RequestMethod.GET})
     public RestResponse studentLoginAjax(@RequestBody Map<String,String> myMap){
+
 
         log.error("myMap"+myMap);
         SystemCode systemCode = SystemCode.OK;
